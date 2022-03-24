@@ -8,5 +8,7 @@ public interface AthleteService {
     Athlete saveAthlete (Athlete athlete);
     List<Athlete> getAllAthletes();
     Athlete getAthleteById(long id);
+    Athlete updateAthlete(Athlete athlete, long id);
+    void deleteAthlete(long id);
 
 }

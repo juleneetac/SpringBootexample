@@ -36,4 +36,20 @@ public class AthleteController {
     public ResponseEntity<Athlete> getAthleteById(@PathVariable("id") long athleteId){
         return new ResponseEntity<Athlete>(athleteService.getAthleteById(athleteId), HttpStatus.OK);
     }
+
+    //build update athlete by id REST API
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Athlete> updateAthlete(@PathVariable("id") long athleteId, @RequestBody Athlete athlete){
+        return  new ResponseEntity<Athlete>(athleteService.updateAthlete(athlete, athleteId), HttpStatus.OK);
+    }
+
+    //build delete athlete by id REST API
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteAthlete(@PathVariable("id") long athleteId){
+        Athlete deletedath = athleteService.getAthleteById(athleteId);
+        //delete athlete from DB
+        athleteService.deleteAthlete(athleteId);
+        return new ResponseEntity<String>("Athlete " + deletedath.getName()+ " deleted OK!", HttpStatus.OK);
+    }
+
 }

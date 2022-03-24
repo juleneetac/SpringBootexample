@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class AthleteServiceImpl implements AthleteService {
 
-    private AthleteRepository athleteRepository;
+    private final AthleteRepository athleteRepository;
 
     public AthleteServiceImpl(AthleteRepository athleteRepository) {
         super();
@@ -39,5 +39,30 @@ public class AthleteServiceImpl implements AthleteService {
         else{
             throw new ResourcesNotFoundException("Athlete", "Id", id);
         }
+    }
+
+    @Override
+    public Athlete updateAthlete(Athlete athlete, long id) {
+        //check if athlete with given id exist in DB
+        Athlete existAthlete = athleteRepository.findById(id).orElseThrow(
+                () -> new ResourcesNotFoundException("Athlete", "Id", id));
+
+        existAthlete.setName(athlete.getName());
+        existAthlete.setGender(athlete.getGender());
+        existAthlete.setEvent(athlete.getEvent());
+
+        //save existimg athlete to DB
+        athleteRepository.save(existAthlete);
+
+        return existAthlete;
+    }
+
+    @Override
+    public void deleteAthlete(long id) {
+        //check if athlete with given id exist in DB
+        athleteRepository.findById(id).orElseThrow(
+                () -> new ResourcesNotFoundException("Athlete", "Id", id));
+
+        athleteRepository.deleteById(id);
     }
 }
