@@ -25,7 +25,8 @@ public class AthleteServiceImpl implements AthleteService {
     }
 
     @Override
-    public List<Athlete> getAllAthletes() {
+    public  List<Athlete> getAllAthletes() {
+        List<Athlete> newlist = athleteRepository.findAll();
         return athleteRepository.findAll();
     }
 

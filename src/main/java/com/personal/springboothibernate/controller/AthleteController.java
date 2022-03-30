@@ -2,6 +2,7 @@ package com.personal.springboothibernate.controller;
 
 import com.personal.springboothibernate.model.Athlete;
 import com.personal.springboothibernate.service.AthleteService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class AthleteController {
 
     //build get all athletes REST API
     @GetMapping("/allath")
-    public List<Athlete> getAllAthletes(){
+    public  List<Athlete> getAllAthletes(){
         return athleteService.getAllAthletes();
     }
 
