@@ -27,7 +27,7 @@ public class Athlete {
 //    private String event;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})     //many to many relation 1 athlete multiple events, 1 event multiple athletes
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})     //many to many relation 1 athlete multiple events, 1 event multiple athletes
     @JoinTable(
             name = "athlete_event",
             joinColumns = @JoinColumn(name = "athlete_id"),
