@@ -3,6 +3,7 @@ package com.personal.springboothibernate.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,7 @@ public class Event {
     @Column(name = "event_name", nullable = false)
     private String event_name;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "event")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "event")
     //Are you using Lombok's @Data annotation? That annocation creates equals and hashcode implementations that
     //include checking the content of the OneToMany collections. This interferes with Hibernate's loading strategy,
     // or something like that. Adding those annotations will prevent that the OneToMany collections get accessed too early.

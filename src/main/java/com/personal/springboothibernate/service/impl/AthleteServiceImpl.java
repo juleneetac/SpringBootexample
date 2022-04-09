@@ -2,7 +2,9 @@ package com.personal.springboothibernate.service.impl;
 
 import com.personal.springboothibernate.exception.ResourcesNotFoundException;
 import com.personal.springboothibernate.model.Athlete;
+import com.personal.springboothibernate.model.Event;
 import com.personal.springboothibernate.repository.AthleteRepository;
+import com.personal.springboothibernate.repository.EventRepository;
 import com.personal.springboothibernate.service.AthleteService;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,12 @@ import java.util.Optional;
 public class AthleteServiceImpl implements AthleteService {
 
     private final AthleteRepository athleteRepository;
+    private final EventRepository eventRepository;
 
-    public AthleteServiceImpl(AthleteRepository athleteRepository) {
+    public AthleteServiceImpl(AthleteRepository athleteRepository, EventRepository eventRepository) {
         super();
         this.athleteRepository = athleteRepository;
+        this.eventRepository = eventRepository;
     }
 
     @Override
@@ -65,5 +69,14 @@ public class AthleteServiceImpl implements AthleteService {
                 () -> new ResourcesNotFoundException("Athlete", "Id", id));
 
         athleteRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Athlete> getAllAthletesByEventId(long id) {
+        Event existEvent = eventRepository.findById(id).orElseThrow(
+                () -> new ResourcesNotFoundException("Event", "Id", id));
+
+        List<Athlete> athletes = athleteRepository.findAthleteByEventId(id);
+        return athletes;
     }
 }

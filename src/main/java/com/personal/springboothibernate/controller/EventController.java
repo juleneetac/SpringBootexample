@@ -1,6 +1,7 @@
 package com.personal.springboothibernate.controller;
 
 
+import com.personal.springboothibernate.model.Athlete;
 import com.personal.springboothibernate.model.Event;
 import com.personal.springboothibernate.service.AthleteService;
 import com.personal.springboothibernate.service.EventService;
@@ -35,8 +36,14 @@ public class EventController {
         return eventService.getAllEvents();
     }
 
-    @GetMapping("{id}/events")
+    @GetMapping("/{id}/events")
     public List<Event> getAllEventsByAthleteId(@PathVariable("id") long athleteId){
         return eventService.getAllEventsByAthleteId(athleteId);
+    }
+
+    @PostMapping("/add/{athleteId}/event")
+    public ResponseEntity<Athlete> addEventToAthlete(@PathVariable(value = "athleteId") Long athleteId, @RequestBody Event eventRequest){
+        return new ResponseEntity<Athlete>(eventService.addEventToAthlete(athleteId, eventRequest), HttpStatus.CREATED);
+
     }
 }

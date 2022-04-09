@@ -1,6 +1,7 @@
 package com.personal.springboothibernate.controller;
 
 import com.personal.springboothibernate.model.Athlete;
+import com.personal.springboothibernate.model.Event;
 import com.personal.springboothibernate.service.AthleteService;
 
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,11 @@ public class AthleteController {
         //delete athlete from DB
         athleteService.deleteAthlete(athleteId);
         return new ResponseEntity<String>("Athlete " + deletedath.getName()+ " deleted OK!", HttpStatus.OK);
+    }
+
+    @GetMapping("{id}/athletes")
+    public List<Athlete> getAllAthletesByEventId(@PathVariable("id") long eventId){
+        return athleteService.getAllAthletesByEventId(eventId);
     }
 
 }

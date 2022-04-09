@@ -9,6 +9,7 @@ import com.personal.springboothibernate.service.EventService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -41,4 +42,31 @@ public class EventServiceImpl implements EventService {
         return events;
 
     }
+
+    @Override
+    public Athlete addEventToAthlete(long athId, Event eventRequest) {   // No se si está bien, seguir haciendo
+        Athlete ath = athleteRepository.findById(athId).map(athlete -> {
+            long eventId = eventRequest.getId();
+
+            // tag is existed
+            if (eventId != 0L) {
+                Event _event = eventRepository.findById(eventId).orElseThrow(
+                        () -> new ResourcesNotFoundException("Event", "Id", eventId));
+                //athlete.setEvent((Set<Event>) _event);   //esto no funciona correcatmente
+                athlete.getEvent().add(_event);
+                athleteRepository.save(athlete);
+                return athlete;
+            }
+
+            // add and create new Tag
+            athlete.getEvent().add(eventRequest);
+            eventRepository.save(eventRequest);
+            return athleteRepository.save(athlete);
+
+        }).orElseThrow(
+                () -> new ResourcesNotFoundException("Athlete", "Id", athId));
+
+        return ath;
+    }
+
 }
